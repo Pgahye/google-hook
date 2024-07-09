@@ -7,15 +7,19 @@ exports.processRequest = function(req, res) {
     if (req.body.queryResult.action == "schedule") {
         getTeamSchedule(req,res)
     }
-    else if (req.body.queryResult.action == "tell.about")
+    else if (req.body.queryResult.action == "tell")
     {
         getTeamInfo(req,res)
     }
 };
 
-function getTeamInfo(req,res)
-{
-      TeamInfo.find().then((data) => {
+function getTeamInfo(req,res){
+    let parameters = req.body.result.parameters;
+    let game_occurence = parameters.game_occurence;
+    let team = parameters.team;
+
+   // console.log(GameSchedule); //{opponent:team}
+    TeamInfo.find().then((data) => {
         console.log(data);
         if(data){
             return res.json(data);
@@ -26,7 +30,8 @@ function getTeamInfo(req,res)
                 source: 'game schedule'
             });
         }
-    }
+    })
+
 }
 
 
