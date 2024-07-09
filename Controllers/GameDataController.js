@@ -7,59 +7,78 @@ exports.processRequest = function(req, res) {
     if (req.body.queryResult.action == "schedule") {
         getTeamSchedule(req,res)
     }
-    else if (req.body.queryResult.action == "tell")
+    else if (req.body.queryResult.action == "lab")
     {
         getTeamInfo(req,res)
     }
 };
 
 function getTeamInfo(req,res){
-    let parameters = req.body.queryResult.parameters;
-    let game_occurence = parameters.game_occurence;
-    let team = parameters.team;
+    let queryText = req.body.queryResult.parameters;
 
-   // console.log(GameSchedule); //{opponent:team}
-    TeamInfo.find().then((data) => {
-        console.log(data);
+    TeamInfo.find({$and : [{preName : queryText.prName},{email : queryText.email}]}).then((data) => {
         if(data){
-              return res.json({
-                speech: 'Something went wrong!',
-                displayText: `팀정보: ${data[0].description} 입니다.`,
-                source: 'game schedule'
-            });
+            console.log(data)
+            if(data.length == 0){
+                return res.json({
+                    "fulfillmentMessages": [
+                        {
+                            "text": {
+                                "text": [
+                                    "일치하는 정보가 없거나 에러가 발생하였습니다."
+                                ]
+                            }
+                        }
+                    ]
+                })
+            }else{
+                return res.json({
+                    "fulfillmentMessages": [
+                        {
+                            "text": {
+                                "text": [
+                                    `${data[0].name}연구실 인증이 완료되었습니다.`
+                                ]
+                            }
+                        }
+                    ]
+                })
+            }
         }else{
             return res.json({
-                speech: 'Something went wrong!',
-                displayText: 'Something went wrong!',
-                source: 'game schedule'
-            });
+                "fulfillmentMessages": [
+                    {
+                        "text": {
+                            "text": [
+                                "일치하는 정보가 없거나 에러가 발생하였습니다."
+                            ]
+                        }
+                    }
+                ]
+            })
         }
-    })
+    });
 
 }
 
 
 function getTeamSchedule(req,res){
-    let parameters = req.body.queryResult.parameters;
-    let game_occurence = parameters.game_occurence;
-    let team = parameters.team;
+    let queryText = req.body.queryResult.parameters;
 
-   // console.log(GameSchedule); //{opponent:team}
-    GameSchedule.find().then((data) => {
-        console.log(data);
+    GameSchedule.find({$and : [{date : queryText.any},{opponent : queryText.web_hook}]}).then((data) => {
         if(data){
                return res.json({
               "fulfillmentMessages": [
                 {
                   "text": {
                     "text": [
-                      `스코어는 ${data[0].score} 입니다.`
+                      `${queryText.any} ${queryText.web_hook} 조횟수는 ${data[0].score} 입니다.`
                     ]
                   }
                 }
               ]
-            }) 
-        }else{   
+            })
+        }else{
             return res.json({
               "fulfillmentMessages": [
                 {
@@ -70,7 +89,7 @@ function getTeamSchedule(req,res){
                   }
                 }
               ]
-            })       
+            })
     }
     });
 }

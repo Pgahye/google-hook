@@ -2,7 +2,7 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var GameSchedule = new Schema({
     date:{
-        type:Date,
+        type:String,
         required:false
     },
     opponent:{
