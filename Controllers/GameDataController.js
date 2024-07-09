@@ -46,15 +46,13 @@ function getTeamInfo(req,res){
             }
         }else{
             return res.json({
-                "fulfillmentMessages": [
-                    {
-                        "text": {
-                            "text": [
-                                "일치하는 정보가 없거나 에러가 발생하였습니다."
-                            ]
-                        }
+                "followupEventInput": {
+                    "name": "intentsEnd",
+                    "languageCode": "en-US",
+                    "parameters": {
+                        
                     }
-                ]
+                }
             })
         }
     });
