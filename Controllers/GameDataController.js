@@ -14,7 +14,7 @@ exports.processRequest = function(req, res) {
 };
 
 function getTeamInfo(req,res){
-    let parameters = req.body.result.parameters;
+    let parameters = req.body.queryResult.parameters;
     let game_occurence = parameters.game_occurence;
     let team = parameters.team;
 
@@ -36,7 +36,7 @@ function getTeamInfo(req,res){
 
 
 function getTeamSchedule(req,res){
-    let parameters = req.body.result.parameters;
+    let parameters = req.body.queryResult.parameters;
     let game_occurence = parameters.game_occurence;
     let team = parameters.team;
 
