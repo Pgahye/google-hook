@@ -22,7 +22,11 @@ function getTeamInfo(req,res){
     TeamInfo.find().then((data) => {
         console.log(data);
         if(data){
-            return res.json(data);
+              return res.json({
+                speech: 'Something went wrong!',
+                displayText: `팀정보: ${data[0].description} 입니다.`,
+                source: 'game schedule'
+            });
         }else{
             return res.json({
                 speech: 'Something went wrong!',
@@ -44,7 +48,11 @@ function getTeamSchedule(req,res){
     GameSchedule.find().then((data) => {
         console.log(data);
         if(data){
-            return res.json(data);
+            return res.json({
+                speech: 'Something went wrong!',
+                displayText: `스코어는 ${data[0].score} 입니다.`,
+                source: 'game schedule'
+            });
         }else{
             return res.json({
                 speech: 'Something went wrong!',
