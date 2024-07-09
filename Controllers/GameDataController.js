@@ -48,18 +48,29 @@ function getTeamSchedule(req,res){
     GameSchedule.find().then((data) => {
         console.log(data);
         if(data){
+               return res.json({
+              "fulfillmentMessages": [
+                {
+                  "text": {
+                    "text": [
+                      `스코어는 ${data[0].score} 입니다.`
+                    ]
+                  }
+                }
+              ]
+            }) 
+        }else{   
             return res.json({
-                speech: 'Something went wrong!',
-                displayText: `스코어는 ${data[0].score} 입니다.`,
-                source: 'game schedule'
-            });
-        }else{
-            return res.json({
-                speech: 'Something went wrong!',
-                displayText: 'Something went wrong!',
-                source: 'game schedule'
-            });
-        }
-    })
-
+              "fulfillmentMessages": [
+                {
+                  "text": {
+                    "text": [
+                      "Text response from webhook error"
+                    ]
+                  }
+                }
+              ]
+            })       
+    }
+    });
 }
