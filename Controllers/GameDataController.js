@@ -16,7 +16,7 @@ exports.processRequest = function(req, res) {
 function getTeamInfo(req,res){
     let queryText = req.body.queryResult.parameters;
 
-    TeamInfo.find({$and : [{preName : queryText.prName},{email : queryText.email}]}).then((data) => {
+    TeamInfo.find({$and : [{preName : queryText.prName.name},{email : queryText.email}]}).then((data) => {
         if(data){
             console.log(data)
             if(data.length == 0){
