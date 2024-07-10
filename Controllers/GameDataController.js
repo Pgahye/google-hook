@@ -22,7 +22,7 @@ function getTeamInfo(req,res){
             if(data.length == 0){
                 return res.json({
                     "followupEventInput": {
-                        "name": "intentsEnd",
+                        "name": "actions_intent_CANCEL",
                         "languageCode": "en-US",
                         "parameters": {
 
